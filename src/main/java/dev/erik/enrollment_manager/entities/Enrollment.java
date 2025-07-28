@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,4 +38,17 @@ public class Enrollment {
   @ManyToOne
   @JoinColumn(name = "student_id", nullable = false)
   private Student student;
+
+  @PrePersist
+  public void prePersist() {
+    LocalDateTime now = LocalDateTime.now();
+    this.createAt = now;
+    this.updateAt = now;
+  }
+
+  @PreUpdate
+  public void preUpdate() {
+    this.updateAt = LocalDateTime.now();
+  }
+
 }
