@@ -8,6 +8,7 @@ import dev.erik.enrollment_manager.dtos.RegisterStudentRequestDTO;
 import dev.erik.enrollment_manager.dtos.StudentResponseDTO;
 import dev.erik.enrollment_manager.dtos.UpdateStudentDTO;
 import dev.erik.enrollment_manager.entities.Student;
+import dev.erik.enrollment_manager.exceptions.StudentNotFoundException;
 import dev.erik.enrollment_manager.mappers.StudentMapper;
 import dev.erik.enrollment_manager.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +54,12 @@ public class StudentService {
 
     Student updateStudent = this.studentRepository.save(student);
     return StudentMapper.toDTO(updateStudent);
+  }
+
+  public void deleteStudentById(Long id) {
+    Student student = this.studentRepository.findById(id)
+        .orElseThrow(() -> new StudentNotFoundException("Student with id: " + id + " not found"));
+
+    this.studentRepository.delete(student);
   }
 }
