@@ -25,4 +25,12 @@ public class StudentService {
     Page<Student> studentPage = this.studentRepository.findAll(pageable);
     return studentPage.map(StudentMapper::toDTO);
   }
+
+  public StudentResponseDTO getStudentById(Long id) {
+    Student student = this.studentRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Student not found"));
+
+    var studentDTO = StudentMapper.toDTO(student);
+    return studentDTO;
+  }
 }
