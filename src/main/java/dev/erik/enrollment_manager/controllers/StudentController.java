@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.erik.enrollment_manager.dtos.PaginatedResponseDTO;
 import dev.erik.enrollment_manager.dtos.RegisterStudentRequestDTO;
 import dev.erik.enrollment_manager.dtos.StudentResponseDTO;
+import dev.erik.enrollment_manager.dtos.UpdateStudentDTO;
 import dev.erik.enrollment_manager.services.StudentService;
 import lombok.RequiredArgsConstructor;
 
@@ -45,4 +46,11 @@ public class StudentController {
     StudentResponseDTO reponse = this.studentService.getStudentById(id);
     return ResponseEntity.ok(reponse);
   }
+
+  @PatchMapping("/{id}")
+  public ResponseEntity<StudentResponseDTO> updateStudent(@PathVariable Long id, @RequestBody UpdateStudentDTO dto) {
+    var response = this.studentService.updateStudent(id, dto);
+    return ResponseEntity.ok(response);
+  }
+
 }
